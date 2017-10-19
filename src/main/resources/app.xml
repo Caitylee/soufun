@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+         http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 基于注解配置哪些对象要纳入IOC容器管理-->
+    <context:component-scan base-package="com.qf.house">
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:exclude-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+    <!-- 注解配置-->
+    <context:annotation-config/>
+<!--    &lt;!&ndash; 通过AOP自动生成代理实现 Aop功能&ndash;&gt;
+    <aop:aspectj-autoproxy/>-->
+
+    <!--<bean id="txBean" class="com.qfedu.springioc.aspect.TxAspect" />-->
+    <!--<aop:config>
+        <aop:aspect id="txAspect" ref="txBean">
+            <aop:pointcut id="txPointcut"
+                    expression="execution(* com.qfedu.springioc.service.impl.*.*(..))" />
+            <aop:around method="doTransaction" pointcut-ref="txPointcut"/>
+        </aop:aspect>
+    </aop:config>-->
+
+    <!-- 配置Spring提供的Hibernate事物管理器-->
+    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!-- 配置数据库连接池 设置注入-->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql:///house"/>
+        <property name="username" value="root"/>
+        <property name="password" value="123456"/>
+        <property name="initialSize" value="10"/>
+        <property name="maxTotal" value="100"/>
+        <property name="maxWaitMillis" value="500"/>
+    </bean>
+
+    <!--配置H和hibernate 的sessionFactory 注入连接池-->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="com.qf.house.domain"/>
+        <property name="hibernateProperties">
+            <value>
+                hibernate.dialect=org.hibernate.dialect.MySQL57Dialect
+                hibernate.show_sql=true
+                hibernate.format_sql=true
+                <!--hibernate.current_session_context_class=thread-->
+            </value>
+        </property>
+    </bean>
+
+    <!--注解驱动-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+</beans>
