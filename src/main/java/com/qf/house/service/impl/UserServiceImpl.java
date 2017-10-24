@@ -2,6 +2,7 @@ package com.qf.house.service.impl;
 
 import com.qf.house.domain.LoginLog;
 import com.qf.house.domain.User;
+import com.qf.house.dto.UserLoginDto;
 import com.qf.house.persistence.LoginLogDao;
 import com.qf.house.persistence.UserDao;
 import com.qf.house.service.UserService;
@@ -25,7 +26,7 @@ public class UserServiceImpl implements UserService {
     private LoginLogDao loginLogDao;
 
     @Override
-    public boolean login(User user) {
+    public boolean login(UserLoginDto user) {
         boolean flag = false;
         String username = user.getUsername();
         User temp = userDao.findByUserName(username);
@@ -37,8 +38,7 @@ public class UserServiceImpl implements UserService {
                 user.setRealname(temp.getRealname());
                 LoginLog loginLog = new LoginLog();
                 loginLog.setUser(temp);
-                //getRemoteAddr() 拿到远端地址
-                loginLog.setIpaddr("");
+                loginLog.setIpaddr(user.getIpAddress());
                 loginLog.setLogdate(new Date());
                 loginLogDao.save(loginLog);
             }
@@ -57,5 +57,10 @@ public class UserServiceImpl implements UserService {
             user.setAdmin(false);
             return userDao.save(user) != null;
         }
+    }
+
+    @Override
+    public boolean checkUnique(String username) {
+        return  userDao.findByUserName(username)==null;
     }
 }

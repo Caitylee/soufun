@@ -1,4 +1,4 @@
-﻿<%@ page pageEncoding="utf-8"%>
+﻿﻿<%@ page pageEncoding="utf-8"%>
 <%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -21,9 +21,9 @@
 			</div>
 			<div id="headbar">
 				<c:choose>
-					<c:when test="${not empty sessionScope.user}">
-						<a href="toUserInfo">${user.username}</a>&nbsp;&nbsp;
-						<a href="">发布房源</a>&nbsp;&nbsp;
+					<c:when test="${not empty sessionScope.userId}">
+						<a href="toUserInfo">${sessionScope.userRealname}</a>&nbsp;&nbsp;
+						<a href="toPub">发布房源</a>&nbsp;&nbsp;
 						<a href="Logout">注销</a>
 
 					</c:when>
@@ -35,7 +35,7 @@
 			</div>
 		</div>
 		<div id="navbar" class="wrap">
-			<form method="post" action="index.do" id='sform'>
+			<form method="post" action="" id='sform'>
 				<div class="search clearfix">
 					<div class="fl">
 						<ul>
@@ -71,8 +71,8 @@
 							<li>
 								<select name='house.district.id' id='district'>
 									<option value='0'>不限</option>
-									<c:forEach items="${districtList}" var="dis">
-										<option value='${dis.id}'>${dis.name}</option>
+									<c:forEach items="${applicationScope.provinceList}" var="pro">
+										<option value='${pro.id}'>${pro.name}</option>
 									</c:forEach>
 								</select>
 							</li>
@@ -84,7 +84,7 @@
 							<li>
 								<select name='house.houseType.id' id='houseType'>
 									<option value='0'>不限</option>
-									<c:forEach items="${houseTypeList}" var="houseType">
+									<c:forEach items="${applicationScope.houseTypeList}" var="houseType">
 									<option value='${houseType.id}'>${houseType.name}</option>
 									</c:forEach>
 								</select>
@@ -158,4 +158,10 @@
 			</dl>
 		</div>
 	</body>
+
+<script>
+	$(document).ready(function () {
+		$.ajax('listHouse',)
+    });
+</script>
 </html>

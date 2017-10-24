@@ -15,10 +15,29 @@
     <!--<context:annotation-config/>-->
 
     <!--通过注解配置SpringMvc-->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <!--配置JackSon-->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
 <!--    &lt;!&ndash;配置使用应用服务器(tomcat)默认的servlet处理静态资源&ndash;&gt;-->
     <mvc:default-servlet-handler/>
+    <!--配置上传文件的视图解析器-->
+    <!--Servlet3 -StanderServletMultipartResolver-->
+    <!--Apache Commons FileUpload - CommonsMultipartResolver -->
+    <!--如果使用Servlet3原生的文件上传支持那么需要在配置DispatcherServlet时指定multipart-config-->
+    <bean class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/toPub"/>
+            <bean class="com.qf.house.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
 <!--
     <mvc:resources mapping="/css/**" location="/css/**"/>
@@ -31,5 +50,32 @@
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
+        <property name="order" value="10"/>
+    </bean>
+
+
+
+    <!--freemarker Configure对象-->
+    <bean  class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <!--模板路径-->
+        <property name="templateLoaderPath" value="/WEB-INF/ftl/"/>
+        <!--默认字符编码-->
+        <property name="defaultEncoding" value="utf-8"/>
+        <!---->
+        <property name="freemarkerSettings">
+            <props>
+                <!--兼容模式-->
+                <prop key="classic_compatible">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--freemarker视图解析器-->
+    <bean  class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+       <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+        <property name="order" value="3"/>
     </bean>
 </beans>

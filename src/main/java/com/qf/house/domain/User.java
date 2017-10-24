@@ -14,9 +14,7 @@ public class User {
     @Column(name = "userid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Pattern(regexp = "\\w{5,20}")
     private String username;
-    @Size(min = 6)
     private String password;
     private String realname;
     private String tel;

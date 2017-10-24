@@ -1,4 +1,4 @@
-﻿<%@ page pageEncoding="utf-8" %>
+﻿﻿<%@ page pageEncoding="utf-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +19,7 @@
             <dd class="past">填写个人信息</dd>
         </dl>
         <div class="box">
-            <form id="userRegister" action="doRegister" method="post">
+            <form id="registerForm" action="doRegister" method="post">
                 <div class="infos">
                     <table class="field">
                         <tr>
@@ -43,15 +43,14 @@
                             <td class="field">确认密码：</td>
                             <td>
                                 <input id="repassword" type="password" class="text"
-                                       name="repassword" onblur="passwordCheck()"
-                                       required>
+                                       name="repassword" required>
                                 <span id="note"></span>
                             </td>
                         </tr>
                         <tr>
                             <td class="field">电 话：</td>
                             <td>
-                                <input type="text" class="text" name="tel" required>
+                                <input  id="tel" type="text" class="text" name="tel" required>
                             </td>
                         </tr>
                         <tr>
@@ -69,7 +68,7 @@
                         </tr>
                     </table>
                     <div class="buttons">
-                        <input type="submit" name="submit" value="立即注册"/>
+                        <input type="submit"  value="立即注册"/>
                     </div>
                 </div>
             </form>
@@ -83,45 +82,7 @@
     </dl>
 </div>
 <script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-    $('#username').on('blur', function () {
-        var username = $(this).val();
-        $.ajax({
-            url: 'check.do',
-            data: {'username': username},
-            success: function (data) {
-                if (data.indexOf('used') >= 0) {
-                    showErrorHint();
-                } else {
-                    showCorrectHint();
-                }
-            }
-        });
-    });
-
-    $('#code').on('click',function () {
-        $(this).attr('src', 'code?' + Math.random());
-    });
-
-    function showErrorHint() {
-        $('#isValid').text('X').css('color', 'red');
-    }
-
-    function showCorrectHint() {
-        $('#isValid').text('√').css('color', 'green');
-    }
-
-    function passwordCheck() {
-        var pw1 = document.getElementById("password").value;
-        var pw2 = document.getElementById("repassword").value;
-        if (pw1 != pw2) {
-            $('#note').text('X  两次密码不一致').css('color', 'red');
-            $('#userRegister').submit().disable();
-        } else {
-            $('#note').text('√').css('color', 'green');
-        }
-    }
-</script>
+<script src="js/registerjs.js"></script>
 </body>
 </html>
 

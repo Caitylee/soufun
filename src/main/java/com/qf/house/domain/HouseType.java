@@ -12,7 +12,8 @@ public class HouseType {
     @Column(name = "typeid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String typename;
+    @Column(name = "typename")
+    private String name;
 
 
     public int getId() {
@@ -24,12 +25,12 @@ public class HouseType {
     }
 
 
-    public String getTypename() {
-        return typename;
+    public String getName() {
+        return name;
     }
 
-    public void setTypename(String typename) {
-        this.typename = typename;
+    public void setName(String name) {
+        this.name = name;
     }
 
 

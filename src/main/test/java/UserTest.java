@@ -1,4 +1,5 @@
 import com.qf.house.domain.User;
+import com.qf.house.dto.UserLoginDto;
 import com.qf.house.service.UserService;
 import org.hibernate.SessionFactory;
 import org.junit.Assert;
@@ -29,11 +30,11 @@ public class UserTest {
 
     @Test
     public void testLogin(){
-        User user=new User();
+        UserLoginDto user=new UserLoginDto();
         user.setUsername("a");
         user.setPassword("123456");
         Assert.assertTrue(userService.login(user));
-        User user1=new User();
+        UserLoginDto user1=new UserLoginDto();
         user.setUsername("a");
         user.setPassword("12345611");
         Assert.assertFalse(userService.login(user1));

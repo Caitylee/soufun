@@ -3,6 +3,7 @@ package com.qf.house.util;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @author yangbo
@@ -30,10 +31,17 @@ public  final class CommonUtil {
     }
 
 
+    /**
+     * 生成随机验证码图片
+     * @param code 随机字符串
+     * @param width 图片的宽度   
+     * @param height 图片的高度  
+     * @return 验证码图片
+     */
     public static BufferedImage generateCodeImage(String code,int width,int height){
         BufferedImage bufferedImage=new BufferedImage(width,height,1);
         Graphics2D graphics2D= (Graphics2D) bufferedImage.getGraphics();
-        graphics2D.setBackground(Color.pink);
+        graphics2D.setBackground(Color.BLACK);
         graphics2D.fillRect(0,0,width,height);
         graphics2D.setColor(Color.BLUE);
         int size=(width-10)/code.length();
@@ -52,5 +60,25 @@ public  final class CommonUtil {
         }
         return  bufferedImage;
     }
+
+    /**
+     * 获得全局唯一的文件名
+     */
+    public static String getUniqueFilename() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
+     * 获取文件名中的后缀名
+     * @param filename 文件名
+     * @return 后缀名
+     */
+    public static String getFilenameSuffix(String filename) {
+        // assert filename != null;
+        int index = filename.lastIndexOf(".");
+        return index > 0 && index < filename.length() - 1 ?
+                filename.substring(index) : "";
+    }
+
 }
 

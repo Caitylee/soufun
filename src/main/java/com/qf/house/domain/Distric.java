@@ -12,17 +12,18 @@ public class Distric {
     @Column(name = "distid")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "distname")
     private String name;
     @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
     
-    public Integer getDistid() {
+    public Integer getId() {
         return id;
     }
 
-    public void setDistid(Integer id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

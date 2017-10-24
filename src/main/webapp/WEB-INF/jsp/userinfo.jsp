@@ -11,6 +11,6 @@
     <title>Title</title>
 </head>
 <body>
-<h1>welcome ${sessionScope.user.username}</h1>
+<h1>welcome ${sessionScope.userRealname}</h1>
 </body>
 </html>
