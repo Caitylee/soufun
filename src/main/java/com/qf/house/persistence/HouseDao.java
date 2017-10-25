@@ -5,6 +5,7 @@ import com.qf.house.domain.Distric;
 import com.qf.house.domain.House;
 import com.qf.house.domain.HouseType;
 import com.qf.house.util.PageBean;
+import com.qf.house.util.QueryBean;
 
 import java.util.List;
 
@@ -49,5 +50,14 @@ public interface HouseDao extends BaseDao<House,Integer>{
      * @return 房屋列表
      */
     PageBean<House> findByPage(int page, int size);
+
+    /**
+     * 多条件查询
+     * @param queryBean 查询语句
+     * @param page 当前页
+     * @param size 页面大小
+     * @return 分页器对象
+     */
+    PageBean<House> findByQueryAndPage(QueryBean queryBean, int page, int size);
 
 }

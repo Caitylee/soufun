@@ -2,10 +2,13 @@ package com.qf.house.service.impl;
 
 import com.qf.house.domain.House;
 import com.qf.house.domain.HouseType;
+import com.qf.house.dto.SearchHouseParam;
 import com.qf.house.persistence.HouseDao;
 import com.qf.house.persistence.HouseTypeDao;
 import com.qf.house.service.HouseService;
+import com.qf.house.util.HqlQueryBean;
 import com.qf.house.util.PageBean;
+import com.qf.house.util.QueryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -58,6 +61,22 @@ public class HouseServiceImpl implements HouseService{
     @Override
     public PageBean<House> listHouseByPage(int page, int size) {
         return houseDao.findByPage(page,size);
+    }
+
+
+    @Transactional(readOnly = true,rollbackFor = Exception.class)
+    @Override
+    public PageBean<House> searchHousesWithParamByPage(SearchHouseParam houseParam, int page, int size) {
+        QueryBean queryBean=new HqlQueryBean(House.class)
+                .addCondition("title like ?","%"+houseParam.getTitle()+"%")
+                .addCondition("area>=?",houseParam.getMinArea())
+                .addCondition("area<=?",houseParam.getMaxArea())
+                .addCondition("price>=?",houseParam.getMinPrice())
+                .addCondition("price<=?",houseParam.getMaxPrice())
+                .addCondition(houseParam.getHouseType().getId()!=0,"houseType=?",houseParam.getHouseType())
+                .addOrderBy("pubDate");
+        return houseDao.findByQueryAndPage(queryBean,page,size);
+
     }
 
     @Transactional(readOnly = true,rollbackFor = Exception.class)

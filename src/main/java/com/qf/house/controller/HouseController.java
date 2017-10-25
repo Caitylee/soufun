@@ -2,11 +2,13 @@ package com.qf.house.controller;
 
 import com.qf.house.domain.House;
 import com.qf.house.domain.User;
+import com.qf.house.dto.SearchHouseParam;
 import com.qf.house.service.HouseService;
 import com.qf.house.util.CommonUtil;
 import com.qf.house.util.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,6 +54,19 @@ public class HouseController {
     public PageBean<House> showHouse(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size) {
-           return houseService.listHouseByPage(page,size);
+        return houseService.listHouseByPage(page, size);
+    }
+
+    @PostMapping(value = "/searchHouse")
+    public String search(SearchHouseParam param,
+                         @RequestParam(defaultValue = "1") int page,
+                         @RequestParam(defaultValue = "10") int size,
+                         Model model) {
+        System.out.println(param.getMinArea());
+        PageBean<House> pageBean= houseService.searchHousesWithParamByPage(param,page,size);
+        model.addAttribute("houseList",pageBean.getHouseList());
+        model.addAttribute("currentPage",pageBean.getCurrentPage());
+        model.addAttribute("totalPage",pageBean.getTotalPage());
+        return "index";
     }
 }

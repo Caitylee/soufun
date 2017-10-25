@@ -30,7 +30,7 @@
 			</div>
 		</div>
 		<div id="navbar" class="wrap">
-			<form method="post" action="" id='sform'>
+			<form method="post" action="searchHouse" id='sform'>
 				<div class="search clearfix">
 					<div class="fl">
 						<ul>
@@ -38,7 +38,7 @@
 							<li>标题：
 								<input type="text" class="text" name="title"> 
 								<label class="ui-blue"> 
-								<input type="submit" name="search" value="搜索房屋">
+								<input type="submit" name="searchHouse" value="搜索房屋">
 							</label>
 							</li>
 						</ul>
@@ -47,7 +47,7 @@
 						<ul>
 							<li class="first">价格</li>
 							<li>
-								<select name='house.price' id='price'>
+								<select name='price' id='price'>
 									<option value='不限'>不限</option>
 									<option value='0-600'>600元以下</option>
 									<option value='600-1000'>600元—1000元</option>
@@ -62,25 +62,12 @@
 					</div>
 					<div class="fl">
 						<ul>
-							<li class="first">房屋位置</li>
-							<li>
-								<select name='house.district.id' id='district'>
-									<option value='0'>不限</option>
-									<#list provinceList as province>
-										<option value='${province.id}'>${province.name}</option>
-									</#list>
-								</select>
-							</li>
-						</ul>
-					</div>
-					<div class="fl">
-						<ul>
 							<li class="first">房型</li>
 							<li>
-								<select name='house.houseType.id' id='houseType'>
+								<select name='houseType.id' id='houseType'>
 									<option value='0'>不限</option>
 									<#list houseTypeList as houseType>
-										<option  value='${houseType.name}'>${houseType.name}</option>
+										<option  value='${houseType.id}'>${houseType.name}</option>
 									</#list>
 								</select>
 							</li>
@@ -90,7 +77,7 @@
 						<ul>
 							<li class="first">面积</li>
 							<li>
-								<select name='house.area' id='area'>
+								<select name='area' id='area'>
 									<option value='不限'>不限</option>
 									<option value='0-40'>40以下</option>
 									<option value='40-80'>40-80</option>

@@ -7,12 +7,14 @@
          version="3.1">
     <display-name>Archetype Created Web Application</display-name>
 
+    <!--web应用的上下文参数，在服务启动时便生效-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
+        <!--IOC容器的路径-->
         <param-value>classpath:app.xml</param-value>
     </context-param>
 
-<!--    &lt;!&ndash;配置编码过滤器&ndash;&gt;-->
+    <!--    &lt;!&ndash;配置编码过滤器&ndash;&gt;-->
     <filter>
         <filter-name>encodingFileter</filter-name>
         <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -43,7 +45,7 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
-    
+
     <listener>
         <listener-class>com.qf.house.listener.PreLoadDataListener</listener-class>
     </listener>
